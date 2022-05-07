@@ -24,6 +24,7 @@ async function run(){
     try{
         await client.connect();
         const productCollection = client.db('carspot').collection('product');
+        const orderCollection = client.db('carspot').collection('order');
 
         //get all product
         app.get('/product', async (req, res) =>{
@@ -69,6 +70,12 @@ async function run(){
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await productCollection.deleteOne(query);
+            res.send(result);
+        });
+        //Order Collection API
+        app.post('/order', async (req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
             res.send(result);
         })
 
